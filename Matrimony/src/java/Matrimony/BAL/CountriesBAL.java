@@ -4,7 +4,7 @@
  */
 package Matrimony.BAL;
 
-import Matrimony.DAL.Cities;
+import Matrimony.DAL.Countries;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -13,21 +13,21 @@ import javax.persistence.Persistence;
  *
  * @author TuyenDN
  */
-public class CitiesBAL {
+public class CountriesBAL {
 
     private EntityManager em;
 
-    public CitiesBAL() {
+    public CountriesBAL() {
         em = Persistence.createEntityManagerFactory("MatrimonyPU").createEntityManager();
     }
 
-    //Insert city into database
-    public int Insert(Cities pCity) throws Exception {
+    //Insert Country into database
+    public int Insert(Countries pCountry) throws Exception {
         try {
             if (!em.getTransaction().isActive()) {
                 em.getTransaction().begin();
             }
-            em.persist(pCity);
+            em.persist(pCountry);
             em.getTransaction().commit();
         } catch (Exception ex) {
             throw new Exception(ex.getMessage());
@@ -36,13 +36,13 @@ public class CitiesBAL {
     }
 
     //Update changed the city into the database
-    public int Update(Cities pCity) throws Exception {
+    public int Update(Countries pCountry) throws Exception {
         try {
             if (!em.getTransaction().isActive()) {
                 em.getTransaction().begin();
             }
-            if (pCity != null) {
-                em.merge(pCity);
+            if (pCountry != null) {
+                em.merge(pCountry);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -53,14 +53,14 @@ public class CitiesBAL {
     }
 
     //Set City disable
-    public int Delete(Cities pCity) throws Exception {
+    public int Delete(Countries pCountry) throws Exception {
         try {
             if (!em.getTransaction().isActive()) {
                 em.getTransaction().begin();
             }
-            if (pCity != null) {
-                pCity.setStatus(false);
-                em.merge(pCity);
+            if (pCountry != null) {
+                pCountry.setStatus(false);
+                em.merge(pCountry);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -69,21 +69,21 @@ public class CitiesBAL {
         return 1;
     }
 
-    public Cities getCity(Cities pCity) throws Exception {
-        Cities cty = null;
+    public Countries getCountry(Countries pCountry) throws Exception {
+        Countries country = null;
         try {
-            cty = em.createNamedQuery("Cities.findByCityID", Cities.class).setParameter("cityID", pCity.getCityID()).getSingleResult();
+            country = em.createNamedQuery("Countries.findByCountryID", Countries.class).setParameter("countryID", pCountry.getCountryID()).getSingleResult();
         } catch (Exception ex) {
             throw new Exception(ex.getMessage());
         }
-        return cty;
+        return country;
     }
 
     //Get list cities for Administrator
-    public List<Cities> getAllCities() throws Exception {
-        List<Cities> list;
+    public List<Countries> getAllCountries() throws Exception {
+        List<Countries> list;
         try {
-            list = em.createNamedQuery("Cities.findAll", Cities.class).getResultList();
+            list = em.createNamedQuery("Countries.findAll", Countries.class).getResultList();
         } catch (Exception ex) {
             throw new Exception(ex.getMessage());
         }
@@ -91,10 +91,10 @@ public class CitiesBAL {
     }
 
     //Get list cities for Client by Status
-    public List<Cities> getAllCitiesByStatus() throws Exception {
-        List<Cities> list;
+    public List<Countries> getAllCountriesByStatus() throws Exception {
+        List<Countries> list;
         try {
-            list = em.createNamedQuery("Cities.findByStatus", Cities.class).setParameter("status", true).getResultList();
+            list = em.createNamedQuery("Countries.findByStatus", Countries.class).setParameter("status", true).getResultList();
         } catch (Exception ex) {
             throw new Exception(ex.getMessage());
         }

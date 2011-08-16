@@ -4,30 +4,29 @@
  */
 package Matrimony.BAL;
 
-import Matrimony.DAL.Cities;
+import Matrimony.DAL.Educations;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
-
 /**
  *
  * @author TuyenDN
  */
-public class CitiesBAL {
-
+public class EducationsBAL {
+    
     private EntityManager em;
 
-    public CitiesBAL() {
+    public EducationsBAL() {
         em = Persistence.createEntityManagerFactory("MatrimonyPU").createEntityManager();
     }
 
-    //Insert city into database
-    public int Insert(Cities pCity) throws Exception {
+    //Insert Education into database
+    public int Insert(Educations pEducation) throws Exception {
         try {
             if (!em.getTransaction().isActive()) {
                 em.getTransaction().begin();
             }
-            em.persist(pCity);
+            em.persist(pEducation);
             em.getTransaction().commit();
         } catch (Exception ex) {
             throw new Exception(ex.getMessage());
@@ -36,13 +35,13 @@ public class CitiesBAL {
     }
 
     //Update changed the city into the database
-    public int Update(Cities pCity) throws Exception {
+    public int Update(Educations pEducation) throws Exception {
         try {
             if (!em.getTransaction().isActive()) {
                 em.getTransaction().begin();
             }
-            if (pCity != null) {
-                em.merge(pCity);
+            if (pEducation != null) {
+                em.merge(pEducation);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -53,14 +52,14 @@ public class CitiesBAL {
     }
 
     //Set City disable
-    public int Delete(Cities pCity) throws Exception {
+    public int Delete(Educations pEducation) throws Exception {
         try {
             if (!em.getTransaction().isActive()) {
                 em.getTransaction().begin();
             }
-            if (pCity != null) {
-                pCity.setStatus(false);
-                em.merge(pCity);
+            if (pEducation != null) {
+                pEducation.setStatus(false);
+                em.merge(pEducation);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -69,21 +68,21 @@ public class CitiesBAL {
         return 1;
     }
 
-    public Cities getCity(Cities pCity) throws Exception {
-        Cities cty = null;
+    public Educations getEducation(Educations pEducation) throws Exception {
+        Educations Education = null;
         try {
-            cty = em.createNamedQuery("Cities.findByCityID", Cities.class).setParameter("cityID", pCity.getCityID()).getSingleResult();
+            Education = em.createNamedQuery("Educations.findByEducationID", Educations.class).setParameter("EducationID", pEducation.getEducationID()).getSingleResult();
         } catch (Exception ex) {
             throw new Exception(ex.getMessage());
         }
-        return cty;
+        return Education;
     }
 
     //Get list cities for Administrator
-    public List<Cities> getAllCities() throws Exception {
-        List<Cities> list;
+    public List<Educations> getAllEducations() throws Exception {
+        List<Educations> list;
         try {
-            list = em.createNamedQuery("Cities.findAll", Cities.class).getResultList();
+            list = em.createNamedQuery("Educations.findAll", Educations.class).getResultList();
         } catch (Exception ex) {
             throw new Exception(ex.getMessage());
         }
@@ -91,13 +90,14 @@ public class CitiesBAL {
     }
 
     //Get list cities for Client by Status
-    public List<Cities> getAllCitiesByStatus() throws Exception {
-        List<Cities> list;
+    public List<Educations> getAllEducationsByStatus() throws Exception {
+        List<Educations> list;
         try {
-            list = em.createNamedQuery("Cities.findByStatus", Cities.class).setParameter("status", true).getResultList();
+            list = em.createNamedQuery("Educations.findByStatus", Educations.class).setParameter("status", true).getResultList();
         } catch (Exception ex) {
             throw new Exception(ex.getMessage());
         }
         return list;
     }
+    
 }
