@@ -52,6 +52,33 @@ public class CitiesBAL {
         return 1;
     }
     
+    //Set City disable
+    public int Delete(Cities pCity) throws Exception {
+        try {
+            if (!em.getTransaction().isActive()) {
+                em.getTransaction().begin();
+            }
+            if (pCity != null) {
+                pCity.setStatus(false);
+                em.merge(pCity);
+            }
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            throw new Exception(ex.getMessage());
+        }
+        return 1;
+    }
+    
+    public Cities getCity(Cities pCity) throws Exception {
+        Cities cty = null;
+        try{
+            cty = em.createNamedQuery("Cities.findByCityID", Cities.class).setParameter("cityID", pCity.getCityID()).getSingleResult();
+        }catch(Exception ex) {
+            throw new Exception(ex.getMessage());
+        }
+        return cty;
+    }
+    
     //Get list cities for Administrator
     public List<Cities> getAllCities() throws Exception{
         List<Cities> list;
